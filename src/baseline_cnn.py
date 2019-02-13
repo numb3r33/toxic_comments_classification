@@ -43,8 +43,8 @@ def iterate_minibatches(data, token_to_id, batch_size=32, max_len=None,
 def train_with_cv(train):
     data_train, data_val = train_test_split(train, test_size=.3, random_state=SEED)
     tokens, token_to_id  = preprocess(data_train)
-    target_columns = data_train.iloc[:, 2:].tolist()
-    
+    target_columns = data_train.columns.tolist()[2:]
+
     UNK, PAD       = 'UNK', 'PAD'
     UNK_IX, PAD_IX = map(token_to_id.get, [UNK, PAD])
 
