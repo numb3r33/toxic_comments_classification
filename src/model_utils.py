@@ -40,6 +40,35 @@ class CommentsEncoder(nn.Module):
         
         return h
 
+class CommentsLSTMEncoder(nn.Module):
+    def __init__(self, n_tokens, PAD_IX, out_size=64):
+        """ 
+        A simple sequential encoder for titles.
+        x -> emb -> conv -> global_max -> relu -> dense
+        """
+        super(self.__class__, self).__init__()
+        self.emb   = nn.Embedding(n_tokens, 64, padding_idx=PAD_IX)
+        self.conv1 = nn.LSTM(64, out_size)
+        self.pool1 = GlobalMaxPooling()        
+        self.dense = nn.Linear(out_size, 6)
+    
+    def forward(self, text_ix):
+        """
+        :param text_ix: int64 Variable of shape [batch_size, max_len]
+        :returns: float32 Variable of shape [batch_size, out_size]
+        """
+        h = self.emb(text_ix)
+
+        # Apply the layers as defined above. Add some ReLUs before dense.
+        h = self.conv1(h)
+        h = self.pool1(h)
+        h = F.relu(h)
+        h = self.dense(h)
+        
+        return h
+
+
+
 def compute_loss(prediction, reference):
     """
     Computes objective for minimization.
