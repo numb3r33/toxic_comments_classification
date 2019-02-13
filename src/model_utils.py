@@ -49,7 +49,7 @@ class CommentsLSTMEncoder(nn.Module):
         super(self.__class__, self).__init__()
         self.emb   = nn.Embedding(n_tokens, 64, padding_idx=PAD_IX)
         self.lstm1 = nn.LSTM(64, out_size, num_layers=1)
-        self.pool1 = GlobalMaxPooling()        
+        self.pool1 = GlobalMaxPooling(dim=1)        
         self.dense = nn.Linear(out_size, 6)
     
     def forward(self, text_ix):
