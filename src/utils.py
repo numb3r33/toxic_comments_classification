@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 
-from nltk.tokenizer import WordPunctTokenizer
+from nltk.tokenize import WordPunctTokenizer
 from collections import Counter
 
 basepath = '../data'
