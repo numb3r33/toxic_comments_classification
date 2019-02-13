@@ -1,5 +1,7 @@
 import os
 import pandas as pd
+import numpy as np
+
 
 from nltk.tokenize import WordPunctTokenizer
 from collections import Counter
