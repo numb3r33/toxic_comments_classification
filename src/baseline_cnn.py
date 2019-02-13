@@ -18,7 +18,7 @@ np.random.seed(SEED)
 torch.manual_seed(SEED)
 torch.cuda.manual_seed(SEED)
 
-num_epochs = 2
+num_epochs = 20
 max_len    = 200
 batch_size = 32
 batches_per_epoch = None
@@ -123,8 +123,7 @@ def train_with_cv(train):
         
         col_auc = []
         
-        # train_probs = F.softmax(torch.tensor(train_preds), dim=1)
-        train_probs = train_preds
+        train_probs = F.softmax(torch.tensor(train_preds), dim=1)
 
         for i in range(train_preds.shape[1]):
             col_auc.append(roc_auc_score(labels[:, i], train_probs[:, i]))
@@ -173,9 +172,7 @@ def train_and_submit(train, test, sub):
         val_preds.append(prediction.cpu().detach().numpy())
     
     val_preds       = np.vstack(val_preds)
-    # sub.iloc[:, 1:] = F.softmax(torch.tensor(val_preds), dim=1)
-    sub.iloc[:, 1:] = val_preds
-
+    sub.iloc[:, 1:] = F.softmax(torch.tensor(val_preds), dim=1)
 
     sub.to_csv(f'../submissions/{filename}.csv', index=False)
 
