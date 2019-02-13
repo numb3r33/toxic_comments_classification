@@ -48,7 +48,7 @@ class CommentsLSTMEncoder(nn.Module):
         """
         super(self.__class__, self).__init__()
         self.emb   = nn.Embedding(n_tokens, 64, padding_idx=PAD_IX)
-        self.conv1 = nn.LSTM(64, out_size)
+        self.lstm1 = nn.LSTM(64, out_size, num_layers=1)
         self.pool1 = GlobalMaxPooling()        
         self.dense = nn.Linear(out_size, 6)
     
@@ -60,8 +60,8 @@ class CommentsLSTMEncoder(nn.Module):
         h = self.emb(text_ix)
 
         # Apply the layers as defined above. Add some ReLUs before dense.
-        h = self.conv1(h)
-        h = self.pool1(h)
+        output, (h_n, c_n) = self.lstm1(h)
+        h = self.pool1(output)
         h = F.relu(h)
         h = self.dense(h)
         
