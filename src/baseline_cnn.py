@@ -18,7 +18,7 @@ np.random.seed(SEED)
 torch.manual_seed(SEED)
 torch.cuda.manual_seed(SEED)
 
-num_epochs = 20
+num_epochs = 2
 max_len    = 200
 batch_size = 32
 batches_per_epoch = None
@@ -50,7 +50,7 @@ def train_with_cv(train):
     UNK_IX, PAD_IX = map(token_to_id.get, [UNK, PAD])
 
     comment_encoder = CommentsEncoder(out_size=64, n_tokens=len(tokens), PAD_IX=PAD_IX).cuda()
-    opt             = torch.optim.Adam(comment_encoder.parameters(), lr=1e-3)
+    opt             = torch.optim.Adam(comment_encoder.parameters(), lr=1e-4)
 
     for epoch_i in range(num_epochs):
 

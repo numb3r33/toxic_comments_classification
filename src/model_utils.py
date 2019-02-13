@@ -43,7 +43,6 @@ class CommentsEncoder(nn.Module):
 def compute_loss(prediction, reference):
     """
     Computes objective for minimization.
-    By deafult we minimize MSE, but you are encouraged to try mix up MSE, MAE, huber loss, etc.
     """
     loss = nn.CrossEntropyLoss()
     return loss(prediction, reference).cuda()
